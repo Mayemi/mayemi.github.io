@@ -1,40 +1,86 @@
+
+<!--
+    this is basically a "fork" of https://lovelyrad.io, credits to the website owner for the code ^^
+-->
 <!DOCTYPE html>
+<html lang="en">
 <html>
 <head>
-    <title>🕊️</title>
+    <title>Capable of love</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&display=swap">
 </head>
 <style>
-    #lyricbox {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    body {
+        background: #000;
+        margin: 0;
+    }
+
+    #col {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 100%;
+        height: 100%;
+        z-index: -9999;
+    }
+
+    #playbutton {
+        color: #ffffff99;
+        font-family: Forum, serif;
         text-align: center;
-        height: 100px;
+        display: none;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+    #playbutton img {
+        filter: invert(60%);
+    }
+
+    .fadeout {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s 0.125s, opacity 0.125s linear;
+    }
 </style>
 <body>
-    <div id="lyricbox"></div>
+    <iframe src="assets/silence.mp3" type="audio/mp3" allow="autoplay" id="audio" style="display:none"></iframe>
+    <video id="col" autoplay loop>
+        <source src="assets/vid.mp4" type="video/mp4">
+    </video>
+    <div id="playbutton">
+        <img id="button" onclick="playvideo()" src="https://img.icons8.com/dotty/80/000000/play.png">
+        <p>Looks like you are using a browser that blocks autoplay, click on the button to play the video.</p>
+    </div>
 </body>
 <script>
-    const lyrics = [
-        'Right now, I think you\'re the cause of my grief',
-        'But you said it\'s not deep, and to that answer, I weep',
-        'To see you smilin\' in my mind when I lay still in the dark',
-        'It starts with you',
-        '\'Cause after that, I know I\'ll never be as capable of love',
-        'Three little words, dedicate them to me',
-        'Please make them personal, then say them to me',
-        'My focus is everywhere, I\'m not listenin\'',
-        'Don\'t you feel everything you\'re supposed to?',
-        'I\'m wastin\' away, I feel psycho',
-        'I just need to know if you\'re capable of love'
-    ]
+    var video = document.getElementById("col");
+    var playbutton = document.getElementById("playbutton");
+    setTimeout(function () {
+        var promise = video.play();
 
-    document.getElementById('lyricbox').innerHTML = lyrics[~~[Math.random() * lyrics.length]]
+        if (promise !== undefined) {
+            promise.then(_ => {
+                // Autoplay started
+            }).catch(error => {
+                playbutton.style.display = "block";
+            });
+        }
+    }, 250)
+
+    function playvideo() {
+        video.play();
+        playbutton.classList.add('fadeout');
+    }
 </script>
 </html>
